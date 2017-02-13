@@ -39,7 +39,6 @@ if pontoons_override_logs or pontoons_override_wood then
 	end
 	
 	for node_name, new_def in pairs(def_overrides) do
-		minetest.debug("overriding", node_name)
 		minetest.register_node(":" .. node_name, new_def)
 	end
 end

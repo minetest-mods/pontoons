@@ -16,30 +16,15 @@ if pontoons_steel_pontoons == nil then pontoons_steel_pontoons = true end -- def
 local default_modpath = minetest.get_modpath("default")
 
 if pontoons_override_logs or pontoons_override_wood then
-	local def_overrides = {}
-	
-	-- must override a registered node definition with a brand new one,
-	-- can't just twiddle with the parameters of the existing table for some reason
-	local override_def = function (node_name, old_def)
-		local new_def = {}
-		for param, value in pairs(old_def) do
-			new_def[param] = value
-		end
-		new_def.liquids_pointable = true
-		def_overrides[node_name] = new_def
-	end
+	local override_def = {liquids_pointable = true}
 	
 	for node_name, node_def in pairs(minetest.registered_nodes) do
 		if pontoons_override_logs and minetest.get_item_group(node_name, "tree") > 0 then
-			override_def(node_name, node_def)
+			minetest.override_item(node_name, override_def)
 		end
 		if pontoons_override_wood and minetest.get_item_group(node_name, "wood") > 0 then
-			override_def(node_name, node_def)
+			minetest.override_item(node_name, override_def)
 		end
-	end
-	
-	for node_name, new_def in pairs(def_overrides) do
-		minetest.register_node(":" .. node_name, new_def)
 	end
 end
 

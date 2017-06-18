@@ -2,15 +2,15 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local pontoons_override_logs = minetest.setting_getbool("pontoons_override_logs")
+local pontoons_override_logs = minetest.settings:get_bool("pontoons_override_logs")
 if pontoons_override_logs == nil then pontoons_override_logs = true end -- default true
 
-local pontoons_override_wood = minetest.setting_getbool("pontoons_override_wood")
+local pontoons_override_wood = minetest.settings:get_bool("pontoons_override_wood")
 if pontoons_override_wood == nil then pontoons_override_wood = true end -- default true
 
-local pontoons_wood_pontoons = minetest.setting_getbool("pontoons_wood_pontoons") -- default false
+local pontoons_wood_pontoons = minetest.settings:get_bool("pontoons_wood_pontoons") -- default false
 
-local pontoons_steel_pontoons = minetest.setting_getbool("pontoons_steel_pontoons")
+local pontoons_steel_pontoons = minetest.settings:get_bool("pontoons_steel_pontoons")
 if pontoons_steel_pontoons == nil then pontoons_steel_pontoons = true end -- default true
 
 local default_modpath = minetest.get_modpath("default")

@@ -3,7 +3,7 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 -- MCL2 compatibility
-moditems = {}
+local moditems = {}
 
 if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
 	moditems.IRON_ITEM = "mcl_core:iron_ingot"  -- MCL iron

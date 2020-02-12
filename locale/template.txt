@@ -1,0 +1,11 @@
+# textdomain: pontoons
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+Wood Pontoon=
+A hollow wooden block designed to be built on the surface of liquids.=
+Steel Pontoon=
+A hollow steel block designed to be built on the surface of liquids. Magma-safe.=

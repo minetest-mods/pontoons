@@ -1,4 +1,4 @@
-local S = minetest.get_translator("pontoons")
+local S = minetest.get_translator(minetest.get_current_modname())
 
 -- MCL2 compatibility
 local moditems = {}

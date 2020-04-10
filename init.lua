@@ -1,26 +1,33 @@
+-- internationalization boilerplate
 local S = minetest.get_translator("pontoons")
+local default_modpath = minetest.get_modpath("default")
+local mineclone_path = core.get_modpath("mcl_core") and mcl_core
 
--- MCL2 compatibility
+-- compatibility layer
 local moditems = {}
 
-if core.get_modpath("mcl_core") and mcl_core then -- means MineClone 2 is loaded, this is its core mod
-	moditems.IRON_ITEM = "mcl_core:iron_ingot"  -- MCL iron
+if mineclone_path then -- means MineClone 2 is loaded, this is its core mod
+  moditems.iron_item = "mcl_core:iron_ingot"  -- MCL iron
+  moditems.sounds_wood = mcl_sounds.node_sound_wood_defaults
 else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
-	moditems.IRON_ITEM = "default:steel_ingot"  -- MCL iron
+  moditems.iron_item = "default:steel_ingot"  -- default iron
+  moditems.sounds_wood = default.node_sound_wood_defaults
 end
 
+-- load settings from minetest
 
 local pontoons_override_logs = minetest.settings:get_bool("pontoons_override_logs") -- default false
+if pontoons_override_logs == nil then pontoons_override_logs = false end
 
 local pontoons_override_wood = minetest.settings:get_bool("pontoons_override_wood") -- default false
+if pontoons_override_wood == nil then pontoons_override_wood = false end
 
-local pontoons_wood_pontoons = minetest.settings:get_bool("pontoons_wood_pontoons")
-if pontoons_wood_pontoons == nil then pontoons_wood_pontoons = true end -- default true
+local pontoons_wood_pontoons = minetest.settings:get_bool("pontoons_wood_pontoons") -- default true
+if pontoons_wood_pontoons == nil then pontoons_wood_pontoons = true end
 
-local pontoons_steel_pontoons = minetest.settings:get_bool("pontoons_steel_pontoons")
-if pontoons_steel_pontoons == nil then pontoons_steel_pontoons = true end -- default true
+local pontoons_steel_pontoons = minetest.settings:get_bool("pontoons_steel_pontoons") -- default true
+if pontoons_steel_pontoons == nil then pontoons_steel_pontoons = true end 
 
-local default_modpath = minetest.get_modpath("default")
 
 if pontoons_override_logs or pontoons_override_wood then
 	local override_def = {liquids_pointable = true}
@@ -36,16 +43,8 @@ if pontoons_override_logs or pontoons_override_wood then
 end
 
 if pontoons_wood_pontoons then
-	local default_sound
-	local wood_burn_time
-	if default_modpath then
-		if mcl_sounds then
-			default_sound = mcl_sounds.node_sound_wood_defaults()
-		else
-			default_sound = default.node_sound_wood_defaults()
-		end
-		wood_burn_time = minetest.get_craft_result({method="fuel", width=1, items={ItemStack("group:wood")}}).time
-	end
+	local wood_burn_time = minetest.get_craft_result({method="fuel", width=1, items={ItemStack("group:wood")}}).time
+
 	if not wood_burn_time then wood_burn_time = 7 end
 
 	minetest.register_node("pontoons:wood_pontoon", {
@@ -57,7 +56,7 @@ if pontoons_wood_pontoons then
 		is_ground_content = false,
 		liquids_pointable = true,
 		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
-		sounds = default_sound,
+		sounds = moditems.sounds_wood(),
 	})
 
 -- modify recipe, if "airtank" mod is loaded as it has similar recipe and conflicts with pontoons.
@@ -91,19 +90,7 @@ end
 end
 
 if pontoons_steel_pontoons then
-	local default_sound
-	if default_modpath then
-		if mcl_sounds then
-			default_sound = mcl_sounds.node_sound_metal_defaults()
-		else
-			if default.node_sound_metal_defaults then
-				default_sound = default.node_sound_metal_defaults()
-			else
-				default_sound = default.node_sound_wood_defaults()
-			end
-		end
-	end
-	
+
 	minetest.register_node("pontoons:steel_pontoon", {
 		description = S("Steel Pontoon"),
 		_doc_items_longdesc = S("A hollow steel block designed to be built on the surface of liquids. Magma-safe."),
@@ -112,7 +99,7 @@ if pontoons_steel_pontoons then
 		liquids_pointable = true,
 		is_ground_content = false,
 		groups = {cracky = 1, level = 2},
-		sounds = default_sound,
+		sounds = moditems.sounds_wood(),
 	})
 	
 	if default_modpath then
@@ -120,18 +107,18 @@ if pontoons_steel_pontoons then
 			minetest.register_craft({
 				output = 'pontoons:steel_pontoon',
 				recipe = {
-					{"",moditems.IRON_ITEM,""},
-					{moditems.IRON_ITEM,"",moditems.IRON_ITEM},
-					{"","",moditems.IRON_ITEM},
+					{"",moditems.iron_item,""},
+					{moditems.iron_item,"",moditems.iron_item},
+					{"","",moditems.iron_item},
 				}
 			})
 	  else		
 			minetest.register_craft({
 				output = 'pontoons:steel_pontoon',
 				recipe = {
-					{"",moditems.IRON_ITEM,""},
-					{moditems.IRON_ITEM,"",moditems.IRON_ITEM},
-					{"",moditems.IRON_ITEM,""},
+					{"",moditems.iron_item,""},
+					{moditems.iron_item,"",moditems.iron_item},
+					{"",moditems.iron_item,""},
 				}
 			})
 		end

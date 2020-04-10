@@ -9,9 +9,11 @@ local moditems = {}
 if mineclone_path then -- means MineClone 2 is loaded, this is its core mod
   moditems.iron_item = "mcl_core:iron_ingot"  -- MCL iron
   moditems.sounds_wood = mcl_sounds.node_sound_wood_defaults
+  moditems.sounds_metal = mcl_sounds.node_sound_metal_defaults
 else         -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
   moditems.iron_item = "default:steel_ingot"  -- default iron
   moditems.sounds_wood = default.node_sound_wood_defaults
+  moditems.sounds_metal = default.node_sound_metal_defaults
 end
 
 -- load settings from minetest
@@ -99,7 +101,7 @@ if pontoons_steel_pontoons then
 		liquids_pointable = true,
 		is_ground_content = false,
 		groups = {cracky = 1, level = 2},
-		sounds = moditems.sounds_wood(),
+		sounds = moditems.sounds_metal(),
 	})
 	
 	if default_modpath then

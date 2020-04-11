@@ -10,8 +10,8 @@ if mineclone_path then -- means MineClone 2 is loaded, this is its core mod
   moditems.iron_item = "mcl_core:iron_ingot"  -- MCL iron
   moditems.sounds_wood = mcl_sounds.node_sound_wood_defaults
   moditems.sounds_metal = mcl_sounds.node_sound_metal_defaults
-  moditems.wood_block_group = { pickaxey=1, axey=1, swordy=1, handy=1, flammable=1, destroy_by_lava_flow=1, dig_by_water=0 }
-  moditems.metal_block_group = { pickaxey=1, axey=1, swordy=1, handy=1, flammable=0, destroy_by_lava_flow=0, dig_by_water=0 }
+  moditems.wood_block_group = {pickaxey=1,axey=1,swordy=1,handy=1,flammable=1,destroy_by_lava_flow=1,dig_by_water=0 }
+  moditems.metal_block_group = {pickaxey=1,axey=1,swordy=1,handy=1,flammable=0,destroy_by_lava_flow=0,dig_by_water=0 }
 
 elseif default_modpath then   -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
   moditems.iron_item = "default:steel_ingot"  -- default iron
@@ -65,7 +65,7 @@ if pontoons_wood_pontoons then
 		groups = moditems.wood_block_group,
 		sounds = moditems.sounds_wood(),
 		_mcl_blast_resistance = 5,
-		_mcl_hardness = 0.5,
+		_mcl_hardness = 30,
 	})
 
 -- modify recipe, if "airtank" mod is loaded as it has similar recipe and conflicts with pontoons.

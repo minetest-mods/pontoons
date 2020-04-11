@@ -1,6 +1,6 @@
 -- internationalization boilerplate
 local S = minetest.get_translator("pontoons")
-local default_modpath = minetest.get_modpath("default")
+local default_modpath = core.get_modpath("default") and default
 local mineclone_path = core.get_modpath("mcl_core") and mcl_core
 
 -- compatibility layer
@@ -10,13 +10,15 @@ if mineclone_path then -- means MineClone 2 is loaded, this is its core mod
   moditems.iron_item = "mcl_core:iron_ingot"  -- MCL iron
   moditems.sounds_wood = mcl_sounds.node_sound_wood_defaults
   moditems.sounds_metal = mcl_sounds.node_sound_metal_defaults
-  moditems.metal_block_group = { pickaxey=2 }
+  moditems.wood_block_group = { pickaxey=1, axey=1, swordy=1, handy=1, flammable=1, destroy_by_lava_flow=1, dig_by_water=0 }
+  moditems.metal_block_group = { pickaxey=1, axey=1, swordy=1, handy=1, flammable=0, destroy_by_lava_flow=0, dig_by_water=0 }
 
 elseif default_modpath then   -- fallback, assume default (MineTest Game) is loaded, otherwise it will error anyway here.
   moditems.iron_item = "default:steel_ingot"  -- default iron
   moditems.sounds_wood = default.node_sound_wood_defaults
   moditems.sounds_metal = default.node_sound_metal_defaults
-  moditems.metal_block_group = { cracky = 1, level = 2 }
+  moditems.wood_block_group = { choppy=2, oddly_breakable_by_hand=2, flammable=2, wood=1}
+  moditems.metal_block_group = { cracky=1, level= 2}
 end
 
 -- load settings from minetest
@@ -60,10 +62,10 @@ if pontoons_wood_pontoons then
 		place_param2 = 0,
 		is_ground_content = false,
 		liquids_pointable = true,
-		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1},
+		groups = moditems.wood_block_group,
 		sounds = moditems.sounds_wood(),
-		_mcl_blast_resistance = 3,
-		_mcl_hardness = 0.6,
+		_mcl_blast_resistance = 5,
+		_mcl_hardness = 0.5,
 	})
 
 -- modify recipe, if "airtank" mod is loaded as it has similar recipe and conflicts with pontoons.
@@ -110,25 +112,25 @@ if pontoons_steel_pontoons then
 	  _mcl_hardness = 5,
 	})
 	
-	if default_modpath then
-		if core.get_modpath("airtanks") and airtanks then
-			minetest.register_craft({
-				output = 'pontoons:steel_pontoon',
-				recipe = {
-					{"",moditems.iron_item,""},
-					{moditems.iron_item,"",moditems.iron_item},
-					{"","",moditems.iron_item},
-				}
-			})
-	  else		
-			minetest.register_craft({
-				output = 'pontoons:steel_pontoon',
-				recipe = {
-					{"",moditems.iron_item,""},
-					{moditems.iron_item,"",moditems.iron_item},
-					{"",moditems.iron_item,""},
-				}
-			})
-		end
+
+	if core.get_modpath("airtanks") and airtanks then
+		minetest.register_craft({
+			output = 'pontoons:steel_pontoon',
+			recipe = {
+				{"",moditems.iron_item,""},
+				{moditems.iron_item,"",moditems.iron_item},
+				{"","",moditems.iron_item},
+			}
+		})
+	else		
+		minetest.register_craft({
+			output = 'pontoons:steel_pontoon',
+			recipe = {
+				{"",moditems.iron_item,""},
+				{moditems.iron_item,"",moditems.iron_item},
+				{"",moditems.iron_item,""},
+			}
+		})
 	end
+
 end
